@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+    ServerAdmin you@yourdomain.com
+    ServerName clients.3rdpartycode.com
+    ErrorLog "/Users/YOURUSERNAME/Sites/logs/clients_error_log"
+    CustomLog "/Users/YOURUSERNAME/Sites/logs/clients_access_log" common
+
+    DocumentRoot "/Users/YOURUSERNAME/Sites/clients/htdocs"
+	<Directory "/Users/YOURUSERNAME/Sites/clients/htdocs"> 
+		DirectoryIndex index.php
+		Options FollowSymLinks Indexes	
+		AllowOverride All 
+	</Directory> 
+
+	#this is the dev environment for thirdpartycode.com , 
+	Alias "/thirdpartycode.com"	"/Users/YOURUSERNAME/Sites/clients/thirdpartycode.com/htdocs/"
+
+	<Directory "/Users/YOURUSERNAME/Sites/clients/thirdpartycode.com/htdocs/"> 
+		DirectoryIndex index.php
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory> 
+ 
+</VirtualHost>
+
+
