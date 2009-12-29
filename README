@@ -13,3 +13,17 @@ To start with you'll need to configure the db in each environment manually, but 
 take place via capistrano.
 
 
+#Capistrano/Ruby Notes for PHP Developers
+
+You need some Ruby Gems installed
+
+#First you need capistrano multistage and ssh gems.
+
+bash> sudo gem install capistrano-ext
+
+
+Since this is not a rails app, we want the railsless deploy (http://github.com/leehambley/railsless-deploy)
+
+bash> sudo gem install railsless-deploy -s http://gemcutter.org
+
+

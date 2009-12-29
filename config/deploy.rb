@@ -1,15 +1,37 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+set :application, "Client Blog One"
+#You probably want to change this to be the location of the repo you just forked
+set :repository,  "git@github.com:vluther/wordpress-capistrano.git"
 
-# If you aren't deploying to /u/apps/#{application} on the target
-# servers (which is the default), you can specify the actual location
-# via the :deploy_to variable:
-# set :deploy_to, "/var/www/#{application}"
 
+#The following is not the document root, but just the app root 
+set :deploy_to, "/home/demouser/websites/clientblogone/"
+
+
+
+#The unix/ftp user 
+set :user, "demouser"
+
+
+role :app, "clients.example.com"
+role :web, "clients.example.com"
+role :db,  "clients.example.com", :primary => true
+
+#########################
+#things you'll probably not change, unless you know what you're doing 
+###########################
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
+set :scm, :git
 
-role :app, "your app-server here"
-role :web, "your web-server here"
-role :db,  "your db-server here", :primary => true
+#the following is needed because if it's not there, for some reason we don't get
+#asked to accept the key from github..annoying when deploying to a new server
+default_run_options[:pty] = true
+
+#since this is PHP, we don't really need to restart apache or anything
+set :use_sudo, false
+
+#ssh agent forwarding..
+ssh_options[:forward_agent] = true
+
+
