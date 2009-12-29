@@ -1,6 +1,42 @@
 This project is an attempt to have the latest and greatest version of Wordpress, available for a multi stage deploy
 using Ruby's Capistrano utility. 
 
+== Background/Why Multistage == 
+
+This project is a little different than the other Wordpress/Capistrano deploy scripts, in that it uses the capistrano multistage
+plugin. This gives people the ability to deploy to multiple environments.
+
+== Projected/Existing Workflow ==  
+
+This is my current workflow, which I am attempting to automate parts of.
+
+1. Setup local development environment on my laptop (OS X), only accessible by me (127.0.0.1). 
+	- clients.3rdpartycode.com/newebsitename.tld (see vhosts/dev)
+	- as long as I own the domain, 3rdpartycode.com will always point to 127.0.0.1, feel free to use it yourself.
+
+2. Setup stage environment, viewable by the client for approval/ticket requests. 
+	- clients.thirdpartycode.com/newebsitename.tld (se vhosts/stage)
+	- you'll need your own domain for this, and I recommend password protecting everything inside the vhost 
+
+3. Setup production environment, runs on the actual domain of the client.
+	- clientname.tld (see vhosts/production)
+	
+I want to be able to now say: 
+	cap staging deploy 
+OR
+	cap production deploy 
+
+This will take the code from git, and update the staging/production environment, so any changes to the theme will reflect on the staging server.
+
+If I need to do a point release upgrade of wordpress, it's automated as well.
+
+@TODO
+	- If a plugin is added in the dev environment, it's activated upon deploy
+	- If a plugin is deleted in the dev environment, it's de-activated upon deploy
+	- Some way of migrating settings per plugin (need to understand db structure better)
+	- automatically setup staging server (db load etc, not apache configuration)
+
+
 A fresh clone of this repository will give you the latest version of Wordpress, with the following essential plugins
 
 1. Google XML Sitemaps
