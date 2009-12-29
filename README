@@ -1,0 +1,15 @@
+This project is an attempt to have the latest and greatest version of Wordpress, available for a multi stage deploy
+using Ruby's Capistrano utility. 
+
+A fresh clone of this repository will give you the latest version of Wordpress, with the following essential plugins
+
+1. Google XML Sitemaps
+2. All-in-one SEO Pack
+3. Google Analytics
+4. GetClicky 
+
+
+To start with you'll need to configure the db in each environment manually, but the goal is to have such configuration
+take place via capistrano.
+
+
