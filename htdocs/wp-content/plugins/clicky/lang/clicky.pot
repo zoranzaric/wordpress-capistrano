@@ -1,0 +1,277 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Joost de Valk
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/clicky\n"
+"POT-Creation-Date: 2009-11-14 21:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: clicky.php:37
+msgid "Clicky is almost ready. "
+msgstr ""
+
+#: clicky.php:39
+#, php-format
+msgid ""
+"You must %1$s enter your Clicky Site ID, Site Key and Admin Site Key%2$s for "
+"it to work."
+msgstr ""
+
+#: clicky.php:48
+msgid "Clicky needs a bit more info. "
+msgstr ""
+
+#: clicky.php:50
+#, php-format
+msgid ""
+"You must %1$s enter your Clicky Database server%2$s for this plugin to be "
+"able to track comments."
+msgstr ""
+
+#: clicky.php:71 clicky.php:79
+msgid "Twitter"
+msgstr ""
+
+#: clicky.php:73
+msgid "The Clicky.me short URL for this post is"
+msgstr ""
+
+#: clicky.php:75
+msgid "Tweet this post"
+msgstr ""
+
+#: clicky.php:81
+msgid ""
+"This post is not published yet, a short URL will be created for it once the "
+"post is published. Do you want it to be tweeted automatically too?"
+msgstr ""
+
+#: clicky.php:83
+msgid "Tweet post on publish"
+msgstr ""
+
+#: clicky.php:88
+msgid "Goal Tracking"
+msgstr ""
+
+#: clicky.php:90
+#, php-format
+msgid ""
+"Clicky can track Goals for you too, %1$sread the documentation here%2$s. To "
+"be able to track a goal on this post, you need to specify the goal ID here. "
+"Optionally, you can also provide the goal revenue."
+msgstr ""
+
+#: clicky.php:93
+msgid "Goal ID"
+msgstr ""
+
+#: clicky.php:94
+msgid "Goal Revenue"
+msgstr ""
+
+#: clicky.php:134
+msgid "Stats"
+msgstr ""
+
+#: clicky.php:149
+msgid "You cannot edit the Clicky settings."
+msgstr ""
+
+#: clicky.php:168
+msgid "Clicky settings have been updated."
+msgstr ""
+
+#: clicky.php:181
+msgid "Configuration"
+msgstr ""
+
+#: clicky.php:189
+#, php-format
+msgid ""
+"Go to your %1$suser homepage on Clicky%2$s and click &quot;Preferences&quot; "
+"under the name of the domain, you will find the Site ID, Site Key, Admin "
+"Site Key and Database Server under Site information."
+msgstr ""
+
+#: clicky.php:194
+msgid "Site ID"
+msgstr ""
+
+#: clicky.php:201
+msgid "Site Key"
+msgstr ""
+
+#: clicky.php:208
+msgid "Admin Site Key"
+msgstr ""
+
+#: clicky.php:215
+msgid "Database Server"
+msgstr ""
+
+#: clicky.php:221
+msgid "Clicky Settings"
+msgstr ""
+
+#: clicky.php:223
+#, php-format
+msgid ""
+"This plugin allows you to automatically create short URLs through the %1"
+"$sClicky.me service%2$s"
+msgstr ""
+
+#: clicky.php:223
+msgid ""
+"and tweet your post immediately when you publish it. To do that, this plugin "
+"will need your Twitter username and pass."
+msgstr ""
+
+#: clicky.php:228
+msgid "Ignore Admin users"
+msgstr ""
+
+#: clicky.php:229
+msgid ""
+"If you are using a caching plugin, such as WP-Supercache, please ensure that "
+"you have it configured to NOT use the cache for logged in users. Otherwise, "
+"admin users <em>will still</em> be tracked."
+msgstr ""
+
+#: clicky.php:235
+msgid "Track names of commenters"
+msgstr ""
+
+#: clicky.php:240
+msgid "Advanced Settings"
+msgstr ""
+
+#: clicky.php:245
+msgid "Allow Clicky.me integration"
+msgstr ""
+
+#: clicky.php:252
+msgid "Auto Tweet"
+msgstr ""
+
+#: clicky.php:253
+msgid ""
+"No need to check the box on each post, by checking this box, each post get's "
+"tweeted automatically."
+msgstr ""
+
+#: clicky.php:259
+msgid "Twitter username"
+msgstr ""
+
+#: clicky.php:266
+msgid "Twitter password"
+msgstr ""
+
+#: clicky.php:273
+msgid "Prefix for Tweets"
+msgstr ""
+
+#: clicky.php:274
+msgid ""
+"This text will be put in front of Tweets that are published when a blog post "
+"is published"
+msgstr ""
+
+#: clicky.php:278
+msgid "Clicky.me &amp; Twitter Integration"
+msgstr ""
+
+#: clicky.php:283
+msgid "Update Clicky Settings"
+msgstr ""
+
+#: clicky.php:392
+msgid ""
+"Clicky tracking not shown because you're an administrator and you've "
+"configured Clicky to ignore administrators."
+msgstr ""
+
+#: clicky.php:513
+msgid "Posted a comment"
+msgstr ""
+
+#: yst_plugin_tools.php:64
+msgid "Settings"
+msgstr ""
+
+#: yst_plugin_tools.php:138
+msgid "Why not do any or all of the following:"
+msgstr ""
+
+#: yst_plugin_tools.php:140
+msgid "Link to it so other folks can find out about it."
+msgstr ""
+
+#: yst_plugin_tools.php:141
+msgid "Give it a good rating on WordPress.org."
+msgstr ""
+
+#: yst_plugin_tools.php:142
+msgid "Donate a token of your appreciation."
+msgstr ""
+
+#: yst_plugin_tools.php:144
+msgid "Like this plugin?"
+msgstr ""
+
+#: yst_plugin_tools.php:151
+msgid ""
+"If you have any problems with this plugin or good ideas for improvements or "
+"new features, please talk about them in the"
+msgstr ""
+
+#: yst_plugin_tools.php:151
+msgid "Support forums"
+msgstr ""
+
+#: yst_plugin_tools.php:152
+msgid "Need support?"
+msgstr ""
+
+#: yst_plugin_tools.php:168
+msgid "Subscribe"
+msgstr ""
+
+#: yst_plugin_tools.php:169 yst_plugin_tools.php:171
+msgid "Latest news from Clicky"
+msgstr ""
+
+#: yst_plugin_tools.php:171
+msgid "Nothing to say..."
+msgstr ""
+
+#. Plugin Name of an extension
+msgid "Clicky for WordPress"
+msgstr ""
+
+#. Plugin URI of an extension
+msgid "http://getclicky.com/goodies/#wordpress"
+msgstr ""
+
+#. Description of an extension
+msgid "Integrates Clicky on your blog!"
+msgstr ""
+
+#. Author of an extension
+msgid "Joost de Valk"
+msgstr ""
+
+#. Author URI of an extension
+msgid "http://yoast.com/"
+msgstr ""
