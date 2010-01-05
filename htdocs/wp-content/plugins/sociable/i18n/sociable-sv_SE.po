@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sociable 2.8.3\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-07-21 22:24+0100\n"
+"Last-Translator: Mikael Jorhult <mikael@mishkin.se>\n"
+"Language-Team: mishkin.se <mikael@mishkin.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: Sweden\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /home/malaprop/proj/sociable\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: sociable.php:302
+msgid "These icons link to social bookmarking sites where readers can share and discover new web pages."
+msgstr "Dessa ikoner länkar till webbplatser för social bookmarking där läsare kan dela med sig av de sidor de besöker."
+
+#: sociable.php:385
+msgid "Share and Enjoy:"
+msgstr "Dela med dig:"
+
+#: sociable.php:460
+msgid "Sociable tried to check for updates but failed. This might be the way PHP is set up, or just random network issues. Please <a href=\"http://push.cx/sociable\">visit the Sociable website</a> to update manually if needed."
+msgstr "Sociable sökte efter uppdateringar men misslyckades. Detta kan bero på hur PHP är konfigurerat eller av någon tillfällig anledning. Var god besök <a href=\"http://push.cx/sociable\">Sociables hemsida</a>för att uppdatera manuellt om det behövs."
+
+#: sociable.php:481
+msgid "A <a href=\"http://push.cx/sociable\">new version of Sociable is available</a>"
+msgstr "En <a href=\"http://push.cx/sociable\">ny version av Sociable</a> är tillgänglig"
+
+#: sociable.php:481
+msgid "as of "
+msgstr "från "
+
+#: sociable.php:490
+msgid "Couldn't find wp-admin/plugins folder. Please make sure WordPress is installed correctly."
+msgstr "Kunde inte hitta kattalogen wp-admin/plugins. Kontrollera att WordPress är korrekt installerat."
+
+#: sociable.php:492
+msgid "Can't find sociable folder."
+msgstr "Kunde inte hitta katalogen sociable."
+
+#: sociable.php:498
+msgid "Can't find folder:"
+msgstr "Kunde inte hitta katalogen"
+
+#: sociable.php:500
+msgid "Can't find file:"
+msgstr "Kunde inte hitta filen"
+
+#: sociable.php:514
+msgid "Restored all settings to defaults."
+msgstr "Alla inställningar återställdes till standardvärden."
+
+#: sociable.php:550
+msgid "Saved changes."
+msgstr "Ändringarna sparades."
+
+#: sociable.php:554
+msgid "In your plugins/sociable folder, you must have these files:"
+msgstr "Dessa filer måste finnas i katalogen plugins/sociable:"
+
+#: sociable.php:571
+msgid "Sociable Options"
+msgstr "Sociable Inställningar"
+
+#: sociable.php:573
+msgid "Drag and drop sites to reorder them. Only the sites you check will appear publicly."
+msgstr "Dra och släpp webbplatserna i den ordning du vill ha dem. Bara de webbplatser du väljer kommer att visas på sidan."
+
+#: sociable.php:591
+msgid "Change the text displayed in front of the icons below. For complete customization, edit <i>sociable.css</i> in the Sociable plugin directory."
+msgstr "Nedan kan du förändra texten som visas framför ikonerna. För fler möjligheter att modifiera tillägget kan du ändra i <i>sociable.css</i> i Sociables katalog."
+
+#: sociable.php:598
+msgid "The icons appear at the end of each blog post, and posts may show on many different types of pages. Depending on your theme and audience, it may be tacky to display icons on all types of pages."
+msgstr "Ikonerna visas i slutet av varje inlägg. Inlägg kan dock visas på väldigt många typer av sidor och beroende på ditt tema och besökare, kan det upplevas störande att visa ikonerna på alla typer av sidor."
+
+#: sociable.php:601
+msgid "Front page of the blog"
+msgstr "Bloggens förstasida"
+
+#: sociable.php:602
+msgid "Individual blog posts"
+msgstr "Individuella inlägg"
+
+#: sociable.php:603
+msgid "Individual WordPress \"Pages\""
+msgstr "Individuella WordPress-sidor"
+
+#: sociable.php:604
+msgid "Category archives"
+msgstr "Kategoriarkiv"
+
+#: sociable.php:605
+msgid "Date-based archives"
+msgstr "Datumarkiv"
+
+#: sociable.php:606
+msgid "Search results"
+msgstr "Sökresultat"
+
+#: sociable.php:610
+msgid "Save Changes"
+msgstr "Spara ändringar"
+
+#: sociable.php:611
+msgid "Restore Built-in Defaults"
+msgstr "Återställ standardinställningar"
+
+#: sociable.php:616
+msgid "Automatic Updates"
+msgstr "Automatiska uppdateringar"
+
+#: sociable.php:618
+msgid "Sociable checks for new versions when you bring up this page. (At most once per week.)"
+msgstr "Sociable söker efter nya version när du besöker denna sida. (Dock som mest en gång i veckan)"
+
+#: sociable.php:621
+msgid "This copy of Sociable is from"
+msgstr "Denna version av Sociable är från"
+
+#: sociable.php:622
+msgid "Last checked on"
+msgstr "Senaste sökning gjordes"
+
+#: sociable.php:627
+msgid "<a href=\"http://push.cx/sociable\">Sociable</a> is copyright 2006 by <a href=\"http://push.cx/\">Peter Harkins</a>, released under the GNU GPL version 2 or later. If you like Sociable, please send a link my way so other folks can find out about it. If you have any problems or good ideas, <a href=\"mailto:ph@malaprop.org\">mail me</a>."
+msgstr "<a href=\"http://push.cx/sociable\">Sociable</a> är copyrightskyddad 2006 av <a href=\"http://push.cx/\">Peter Harkins</a>, släppt under GNU GPL version 2 eller senare. Om du gillar Sociable så skicka din länk till mig så att fler kan få reda på din sida. Om du har problem med tillägget eller idéer <a href=\"mailto:ph@malaprop.org\">maila me</a>."
+

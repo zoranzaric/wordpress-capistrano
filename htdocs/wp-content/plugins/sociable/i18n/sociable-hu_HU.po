@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sociable\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-01-31 22:20-0600\n"
+"Last-Translator: Peter Harkins <ph@push.cx>\n"
+"Language-Team: Sociable <sociable-devel@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /home/harkins/proj/sociable/trunk\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: sociable.php:387
+msgid "These icons link to social bookmarking sites where readers can share and discover new web pages."
+msgstr "Ezek az ikonok ún. közösségi könyvjelző oldalakra mutatnak, ahol meg lehet osztani másokkal is amit fontosnak találsz."
+
+#: sociable.php:482
+msgid "Share and Enjoy:"
+msgstr "Oszd meg ezt a bejegyzést : "
+
+#: sociable.php:565
+msgid "Sociable tried to check for updates but failed. This might be the way PHP is set up, or just random network issues. Please <a href=\"http://push.cx/sociable\">visit the Sociable website</a> to update manually if needed."
+msgstr "Sociable megpróbált frissítéseket keresni, de valami miatt ez nem sikerült. Lehet, hogy a PHP beállítások az oka, de az is lehet, hogy egyszerű hálózati gond lépett fel. Ha továbbra is fennáll a probléba, akkor a <a href=\"http://push.cx/sociable\">Sociable oldalán</a> meg tudod nézni, hogy van-e esetleg új verzió."
+
+#: sociable.php:586
+msgid "A <a href=\"http://push.cx/sociable\">new version of Sociable is available</a>"
+msgstr "Elérhető egy új <a href=\"http://push.cx/sociable\">új Sociable verzió</a>"
+
+#: sociable.php:586
+msgid "as of "
+msgstr ""
+
+#: sociable.php:595
+#, fuzzy
+msgid "Couldn't find wp-content/plugins folder. Please make sure WordPress is installed correctly."
+msgstr "Nem találtam a wp-content/plugins mappát. Kérlek ellenőrízd, hogy rendben van-e a Wordpress telepítésed!"
+
+#: sociable.php:597
+msgid "Can't find sociable folder."
+msgstr "Nincs meg a sociable mappa."
+
+#: sociable.php:603
+msgid "Can't find folder:"
+msgstr "Nincs meg a következő mappa: "
+
+#: sociable.php:605
+msgid "Can't find file:"
+msgstr "Nincs meg a következő fájl: "
+
+#: sociable.php:619
+msgid "Restored all settings to defaults."
+msgstr "Minden beállítás visszaállítása az eredetire."
+
+#: sociable.php:646
+msgid "Saved changes."
+msgstr "Változások elmentve."
+
+#: sociable.php:650
+msgid "In your plugins/sociable folder, you must have these files:"
+msgstr "A plugins/sociable mappában a következő fájloknak kell lennie: "
+
+#: sociable.php:674
+msgid "Sociable Options"
+msgstr "Sociable beállítások"
+
+#: sociable.php:676
+msgid "Drag and drop sites to reorder them. Only the sites you check will appear publicly."
+msgstr "Pakold tetszésednek megfelelő sorrendbe az ikonokat. Csak a kipipált elemek fognak majd megjelenni az oldaladon."
+
+#: sociable.php:708
+msgid "Change the text displayed in front of the icons below. For complete customization, edit <kbd>sociable.css</kbd> in the Sociable plugin directory."
+msgstr "Itt tudod beállítani, hogy milyen szöveg jelenjen meg az ikonok előtt. Teljes testreszabáshoz a <kbd>sociable.css</kbd> fájlt is át tudod írni."
+
+#: sociable.php:715
+msgid "The icons appear at the end of each blog post, and posts may show on many different types of pages. Depending on your theme and audience, it may be tacky to display icons on all types of pages."
+msgstr "Az ikonok minden bejegyzés után jelennek meg. Itt meg tudod adni, hogy mely oldalakon, aloldalakon, stb. szeretnéd, hogy látszódjanak."
+
+#: sociable.php:718
+msgid "Front page of the blog"
+msgstr "Blog főoldalán"
+
+#: sociable.php:719
+msgid "Individual blog posts"
+msgstr "Minden blog bejegyzés végén"
+
+#: sociable.php:720
+msgid "Individual WordPress \"Pages\""
+msgstr "Minden wordpress \"Oldal\" alján "
+
+#: sociable.php:721
+msgid "Category archives"
+msgstr "Kategória archívumnál"
+
+#: sociable.php:722
+msgid "Date-based archives"
+msgstr "Időrendi archívumnál"
+
+#: sociable.php:723
+msgid "Search results"
+msgstr "Keresési eredményeknél"
+
+#: sociable.php:727
+msgid "Save Changes"
+msgstr "Változások mentése"
+
+#: sociable.php:728
+msgid "Restore Built-in Defaults"
+msgstr "Eredeti beállítások visszaállítása"
+
+#: sociable.php:733
+msgid "Automatic Updates"
+msgstr "Automatikus frissítés"
+
+#: sociable.php:735
+msgid "Sociable checks for new versions when you bring up this page. (At most once per week.)"
+msgstr "Sociable minden alkalommal, amikor ezt az oldalt betöltöd ellenőrzi, hogy van-e frissebb verzó, mint az általad használt."
+
+#: sociable.php:738
+msgid "This copy of Sociable is from"
+msgstr "A jelenleg használt verzó dátuma "
+
+#: sociable.php:739
+msgid "Last checked on"
+msgstr "Utolsó ellenőrzés"
+
+#: sociable.php:744
+msgid "<a href=\"http://push.cx/sociable\">Sociable</a> is copyright 2006 by <a href=\"http://push.cx/\">Peter Harkins</a>, released under the GNU GPL version 2 or later. If you like Sociable, please send a link my way so other folks can find out about it. If you have any problems or good ideas, <a href=\"mailto:ph@malaprop.org\">mail me</a>."
+msgstr "A <a href=\"http://push.cx/sociable\">Sociable</a>  plugin <a href=\"http://push.cx/\">Peter Harkins</a> védjegye. GNU GPL 2, vagy annál újabb licenc alatt lett közzétéve. Ha tetszik a plugin, vagy kérdésed, ötleted van, akkor írj <a href=\"mailto:ph@malaprop.org\">levelet</a>! <br />Ha a magyar fordítással van valami probléma, akkor keress meg <a href=\"http://kobak.org/kontakt/\">engem</a>"
+

@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sociable\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-03 19:57+0800\n"
+"Last-Translator: Hugo <aa@kimo.com.tw>\n"
+"Language-Team: Hugo5688 <hugo5688@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: TAIWAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /home/malaprop/proj/sociable\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: sociable.php:387
+msgid "These icons link to social bookmarking sites where readers can share and discover new web pages."
+msgstr "這些圖示將會連結到社交網站，並且可以分享給讀者們"
+
+#: sociable.php:482
+msgid "Share and Enjoy:"
+msgstr "Share and Enjoy:"
+
+#: sociable.php:565
+msgid "Sociable tried to check for updates but failed. This might be the way PHP is set up, or just random network issues. Please <a href=\"http://push.cx/sociable\">visit the Sociable website</a> to update manually if needed."
+msgstr "Sociable 嘗試更新但失敗了. 這有可能是PHP設定的方式, 或是網路方面的問題. 如果您需要的話請瀏覽<a href=\"http://push.cx/sociable\"> Sociable 的網站</a> 來手動更新."
+
+#: sociable.php:586
+msgid "A <a href=\"http://push.cx/sociable\">new version of Sociable is available</a>"
+msgstr "<a href=\"http://push.cx/sociable\">新版本的 Sociable 已經可以下載</a>"
+
+#: sociable.php:586
+msgid "as of "
+msgstr "自"
+
+#: sociable.php:595
+msgid "Couldn't find wp-content/plugins folder. Please make sure WordPress is installed correctly."
+msgstr "無法找到 wp-content/plugins 資料夾. 請確認 WordPress 已經正確的安裝完成."
+
+#: sociable.php:597
+msgid "Can't find sociable folder."
+msgstr "無法找到 sociable 資料夾"
+
+#: sociable.php:603
+msgid "Can't find folder:"
+msgstr "無法找到資料夾:"
+
+#: sociable.php:605
+msgid "Can't find file:"
+msgstr "無法找到檔案:"
+
+#: sociable.php:619
+msgid "Restored all settings to defaults."
+msgstr "復原所有選項至原始設定"
+
+#: sociable.php:646
+msgid "Saved changes."
+msgstr "已儲存變更"
+
+#: sociable.php:650
+msgid "In your plugins/sociable folder, you must have these files:"
+msgstr "在您的 plugins/sociable 資料夾內必需有以下檔案:"
+
+#: sociable.php:674
+msgid "Sociable Options"
+msgstr "Sociable 選項"
+
+#: sociable.php:676
+msgid "Drag and drop sites to reorder them. Only the sites you check will appear publicly."
+msgstr "您可以重新的拖曳來排列這些站點。只有您勾選的站點才會公開地出現在您的網站上。"
+
+#: sociable.php:708
+msgid "Change the text displayed in front of the icons below. For complete customization, edit <kbd>sociable.css</kbd> in the Sociable plugin directory."
+msgstr "編輯出現在圖示之前的文字。如果想要自定更多部份，請編輯在 plugin / Sociable  底下的 <kbd>sociable.css</kbd>"
+
+#: sociable.php:715
+msgid "The icons appear at the end of each blog post, and posts may show on many different types of pages. Depending on your theme and audience, it may be tacky to display icons on all types of pages."
+msgstr "圖示會出現在每篇文章的最底下，而且文章可能會顯示在許多不同類型的頁面上，這取決於您的佈景與讀者，而且有可能會出現在所有類型的頁面裡。"
+
+#: sociable.php:718
+msgid "Front page of the blog"
+msgstr "在頁面前端顯示"
+
+#: sociable.php:719
+msgid "Individual blog posts"
+msgstr "顯示在單篇文章"
+
+#: sociable.php:720
+msgid "Individual WordPress \"Pages\""
+msgstr "顯示在單獨頁面"
+
+#: sociable.php:721
+msgid "Category archives"
+msgstr "顯示在分類彙整"
+
+#: sociable.php:722
+msgid "Date-based archives"
+msgstr "顯示在日期彙整"
+
+#: sociable.php:723
+msgid "Search results"
+msgstr "顯示在搜尋結果"
+
+#: sociable.php:727
+msgid "Save Changes"
+msgstr "儲存變更"
+
+#: sociable.php:728
+msgid "Restore Built-in Defaults"
+msgstr "還原內建的原始設定"
+
+#: sociable.php:733
+msgid "Automatic Updates"
+msgstr "自動更新"
+
+#: sociable.php:735
+msgid "Sociable checks for new versions when you bring up this page. (At most once per week.)"
+msgstr "當您開啟此頁面 Sociable 會檢查是否有較新的版本 (最多每星期一次)"
+
+#: sociable.php:738
+msgid "This copy of Sociable is from"
+msgstr "此版的 Sociable 是從"
+
+#: sociable.php:739
+msgid "Last checked on"
+msgstr "上一次檢查為"
+
+#: sociable.php:744
+msgid "<a href=\"http://push.cx/sociable\">Sociable</a> is copyright 2006 by <a href=\"http://push.cx/\">Peter Harkins</a>, released under the GNU GPL version 2 or later. If you like Sociable, please send a link my way so other folks can find out about it. If you have any problems or good ideas, <a href=\"mailto:ph@malaprop.org\">mail me</a>."
+msgstr "<a href=\"http://push.cx/sociable\">Sociable</a> is copyright 2006 by <a href=\"http://push.cx/\">Peter Harkins</a>, released under the GNU GPL version 2 or later. If you like Sociable, please send a link my way so other folks can find out about it. If you have any problems or good ideas, <a href=\"mailto:ph@malaprop.org\">mail me</a>."
+

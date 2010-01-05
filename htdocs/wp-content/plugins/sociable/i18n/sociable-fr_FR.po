@@ -1,0 +1,141 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sociable\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-02-02 21:38-0600\n"
+"Last-Translator: Peter Harkins <ph@push.cx>\n"
+"Language-Team:  <soc-dev@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: /home/malaprop/proj/sociable\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: sociable.php:172
+msgid "E-mail this story to a friend!"
+msgstr "Envoyez cette page à un ami par courriel!"
+
+#: sociable.php:368
+msgid "Print this article!"
+msgstr "Imprimez cet article!"
+
+#: sociable.php:302
+msgid "These icons link to social bookmarking sites where readers can share and discover new web pages."
+msgstr "Ces icônes sont des liens vers des sites de partage de signet sociaux où les lecteurs peuvent partager et découvrir de nouveaux liens."
+
+#: sociable.php:385
+msgid "Share and Enjoy:"
+msgstr "Partager et découvrir :"
+
+#: sociable.php:460
+msgid "Sociable tried to check for updates but failed. This might be the way PHP is set up, or just random network issues. Please <a href=\"http://push.cx/sociable\">visit the Sociable website</a> to update manually if needed."
+msgstr "Sociable a essayé de vérifier les mises à jour mais a échoué. Cela est sans doute dû à la configuration PHP. Allez sur le site de <a href=\"http://push.cx/sociable\">Sociable</a> pour faire une mise à jour manuelle."
+
+#: sociable.php:481
+msgid "A <a href=\"http://push.cx/sociable\">new version of Sociable is available</a>"
+msgstr "Un nouvelle version de <a href=\"http://push.cx/sociable\"> sociable est disponible</a>"
+
+#: sociable.php:481
+msgid "as of "
+msgstr "en date de"
+
+#: sociable.php:490
+msgid "Couldn't find wp-admin/plugins folder. Please make sure WordPress is installed correctly."
+msgstr "Impossible de trouver le répertoire wp-admin/plugins. Vérifiez si Wordpress est installé correctement."
+
+#: sociable.php:492
+msgid "Can't find sociable folder."
+msgstr "Impossible de trouver le répertoire SOCIABLE."
+
+#: sociable.php:498
+msgid "Can't find folder:"
+msgstr "Impossible de trouver le répertoire:"
+
+#: sociable.php:500
+msgid "Can't find file:"
+msgstr "Impossible de trouver le fichier:"
+
+#: sociable.php:514
+msgid "Restored all settings to defaults."
+msgstr "Restaurer la configuration par defaut"
+
+#: sociable.php:550
+msgid "Saved changes."
+msgstr "Sauvez les modifications."
+
+#: sociable.php:554
+msgid "In your plugins/sociable folder, you must have these files:"
+msgstr "Dans le répertoire plugins/sociable, vous devez avoir ces fichiers :"
+
+#: sociable.php:571
+msgid "Sociable Options"
+msgstr "Options de Sociable"
+
+#: sociable.php:573
+msgid "Drag and drop sites to reorder them. Only the sites you check will appear publicly."
+msgstr "Clissez déposez les sites pour les remettre en ordre. Seuls les sites sélectionnés apparaitront publiquement."
+
+#: sociable.php:591
+msgid "Change the text displayed in front of the icons below. For complete customization, edit <i>sociable.css</i> in the Sociable plugin directory."
+msgstr "Changer le texte affiché devant les icones. Pour une customization complète, éditez le fichier <i>sociable.css</i>  dans le répertoire plugins/sociable."
+
+#: sociable.php:598
+msgid "The icons appear at the end of each blog post, and posts may show on many different types of pages. Depending on your theme and audience, it may be tacky to display icons on all types of pages."
+msgstr "Les icônes apparaissent à la fin de chaque article, et sur plusieurs types de pages. Selon votre thème et son audience, il peut être interessant d'afficher les icones sur toutes les pages."
+
+#: sociable.php:601
+msgid "Front page of the blog"
+msgstr "Page principale du blog"
+
+#: sociable.php:602
+msgid "Individual blog posts"
+msgstr "Articles individuels"
+
+#: sociable.php:603
+msgid "Individual WordPress \"Pages\""
+msgstr "\"Pages\" individuelle de WordPress"
+
+#: sociable.php:604
+msgid "Category archives"
+msgstr "Catégories d'archives"
+
+#: sociable.php:605
+msgid "Date-based archives"
+msgstr "Archives par date"
+
+#: sociable.php:606
+msgid "Search results"
+msgstr "Résultats de recherche"
+
+#: sociable.php:610
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
+
+#: sociable.php:611
+msgid "Restore Built-in Defaults"
+msgstr "Restaurer la configuration par defaut"
+
+#: sociable.php:616
+msgid "Automatic Updates"
+msgstr "Mise à jour automatique"
+
+#: sociable.php:618
+msgid "Sociable checks for new versions when you bring up this page. (At most once per week.)"
+msgstr "Sociable vérifie la disponibilité d'une nouvelle version lorsque vous appelez cette page. (Au moins 1 fois par semaine)"
+
+#: sociable.php:621
+msgid "This copy of Sociable is from"
+msgstr "Cette copie de Sociable provient de"
+
+#: sociable.php:622
+msgid "Last checked on"
+msgstr "Dernière mise à jour, le"
+
+#: sociable.php:627
+msgid "<a href=\"http://push.cx/sociable\">Sociable</a> is copyright 2006 by <a href=\"http://push.cx/\">Peter Harkins</a>, released under the GNU GPL version 2 or later. If you like Sociable, please send a link my way so other folks can find out about it. If you have any problems or good ideas, <a href=\"mailto:ph@malaprop.org\">mail me</a>."
+msgstr "<a href=\"http://push.cx/sociable\">Sociable</a> est copyright 2006 par <a href=\"http://push.cx/\">Peter Harkins</a>, libéré sous licence GNU GPL version 2 ou supérieure. Si vous aimez Sociable, renvoyez un lien vers mon site pour que d'autre personnes puisse le découvrir. Pour signaler un bug, une remarques, une idée, <a href=\"mailto:ph@malaprop.org\">écrivez moi</a>."
+
