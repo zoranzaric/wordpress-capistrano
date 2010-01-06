@@ -10,10 +10,6 @@ set :deploy_to, "/home/demouser/websites/clientblogone/"
 #The unix/ftp user 
 set :user, "demouser"
 
-#role :app, "clients.example.com"
-#role :web, "clients.example.com"
-#role :db,  "clients.example.com", :primary => true
-
 #########################
 #things you'll probably not change, unless you know what you're doing 
 ###########################
@@ -42,7 +38,7 @@ namespace :deploy do
   DESC
   task :default do
     update
-    finalized_update
+    finalize_update
   end
 
   desc <<-DESC
@@ -57,9 +53,21 @@ namespace :deploy do
   DESC
   task :finalize_update, :except => { :no_release => true } do
     run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
-    run "mkdir #{latest_release}/htdocs/wp-content/cache"
+    #run "mkdir #{latest_release}/htdocs/wp-content/cache"
     run "ln -s #{shared_path}/wp-content/uploads #{latest_release}/htdocs/wp-content/uploads"
     run "chmod -R 755 #{latest_release}/htdocs/wp-content"
+  end
+  
+  desc <<-DESC
+    This will setup the directory structure on the target machine, for the wordpress install. This makes the wp-content/uploads
+    directory shareable. Also since this isn't a ruby app, things like system/pids isn't necessary here
+  DESC
+  task :setup do
+    run "mkdir #{deploy_to}"
+    run "mkdir #{deploy_to}/releases"
+    run "mkdir #{shared_path}"
+    run "mkdir #{shared_path}/wp-content"
+    run "mkdir #{shared_path}/wp-content/uploads"
   end
 end
 

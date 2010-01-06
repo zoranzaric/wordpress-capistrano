@@ -1,12 +1,11 @@
 This project is an attempt to have the latest and greatest version of Wordpress, available for a multi stage deploy
 using Ruby's Capistrano utility. 
 
-== Background/Why Multistage == 
+Background/Why Multistage  
 
-This project is a little different than the other Wordpress/Capistrano deploy scripts, in that it uses the capistrano multistage
-plugin. This gives people the ability to deploy to multiple environments.
+This project is a little different than the other Wordpress/Capistrano deploy scripts, in that it uses the capistrano multistage plugin. This gives people the ability to deploy to multiple environments.
 
-== Projected/Existing Workflow ==  
+Projected/Existing Workflow   
 
 This is my current workflow, which I am attempting to automate parts of.
 
@@ -32,7 +31,7 @@ If I need to do a point release upgrade of wordpress, it's automated as well.
 
 @TODO
 	- If a plugin is added in the dev environment, it's activated upon deploy
-	- If a plugin is deleted in the dev environment, it's de-activated upon deploy
+	- If a plugin is deleted in the dev environment, it's de-activated upon deploy (this will automatically happen when WP can't find the plugin)
 	- Some way of migrating settings per plugin (need to understand db structure better)
 	- automatically setup staging server (db load etc, not apache configuration)
 
@@ -43,6 +42,9 @@ A fresh clone of this repository will give you the latest version of Wordpress, 
 2. All-in-one SEO Pack
 3. Google Analytics
 4. GetClicky 
+5. Disqus Comment System
+6. Sociable 
+7. WP Touch
 
 
 To start with you'll need to configure the db in each environment manually, but the goal is to have such configuration
