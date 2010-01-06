@@ -53,6 +53,7 @@ namespace :deploy do
   DESC
   task :finalize_update, :except => { :no_release => true } do
     run "chmod -R g+w #{latest_release}" if fetch(:group_writable, true)
+    run "cp #{shared_path}/configs/wp-config.php #{latest_release}/htdocs/"
     #run "mkdir #{latest_release}/htdocs/wp-content/cache"
     run "ln -s #{shared_path}/wp-content/uploads #{latest_release}/htdocs/wp-content/uploads"
     run "chmod -R 755 #{latest_release}/htdocs/wp-content"
@@ -65,7 +66,17 @@ namespace :deploy do
   task :setup do
     run "mkdir #{deploy_to}"
     run "mkdir #{deploy_to}/releases"
-    run "mkdir #{shared_path}"
+    run "mkdir #{shared_path}/"
+    run "mkdir #{shared_path}/configs/"
+    #this can be potentially dangerous...
+    #what this does is copies your htdocs/wp-config.php file and puts it on the production server.
+    #this only happens once (hopefully), so make sure your wp-config.php has production settings
+    # this will probably/hopefully be re-written into a sub task of it's own so you can push updates to wp-config 
+    # easily. or perhaps make a wp-config maker in the first place
+    set(:wp_environment_ready, Capistrano::CLI.ui.ask ("Is wp-config.php ready for this environment? (yes/no): "))
+    if wp_environment_ready == 'yes'
+      top.upload("htdocs/wp-config.php", "#{shared_path}/configs/wp-config.php", :via => :scp)
+    end
     run "mkdir #{shared_path}/wp-content"
     run "mkdir #{shared_path}/wp-content/uploads"
   end
