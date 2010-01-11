@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=paypa
 Tags: wptouch, iphone, ipod, theme, apple, mac, bravenewcode, ajax, mobile, android, blackberry, smartphone
 Requires at least: 2.7
 Tested up to: 2.9.1
-Stable tag: 1.9.7.4
+Stable tag: 1.9.7.6
 
 WPtouch automatically transforms your WordPress blog into an iPhone application-style theme, complete with ajax loading articles and effects, when viewed from an iPhone, iPod touch, Android, Opera Mini, Palm Pre and BlackBerry Storm mobile devices.
 
@@ -18,26 +18,39 @@ The theme also includes the ability for your visitors to easily switch between t
 
 == Changelog ==
 
+= Version 1.9.7.6 =
+
+* Minor administration changes
+
+
+= Version 1.9.7.5 =
+
+* Updated readme to describe WordPress MU installation
+
+
 = Version 1.9.7.4 =
+
 * Fixed an issue where thumbnails wouldn't show
 
-
 = Version 1.9.7.3 =
+
 * Added support for thumbnails using James Lao's 'Simple Post Thumbnails' plugin
 * Changed functions.php check from version (2.9) to whether function exists (WP Security Scan bypass)
 
-
 = Version 1.9.7.2 =
+
 * Added missing code to the theme's functions file for Post thumbs
 * Resolves an issue where blank spaces would appear, not Post Thumbs
 
 
 = Version 1.9.7.1 =
+
 * Fix for broken switch links (missing images) on some installations when in regular theme view
 * Added detect for custom field key 'Thumbnail' to work first before using WP 2.9 Thumbs, for those who've been using this method already
 
 
 = Version 1.9.7 =
+
 * Added Post Thumbnails View option (WordPress 2.9 only) for main post listings
 * Added option to show neither post thumbnails nor calendar icons
 * Added style option to choose the font of H2 elements on post listings, single entries and pages
@@ -394,10 +407,12 @@ You can install *WPtouch* directly from the WordPress admin! Visit the *Plugins/
 Once installed and activated visit the WPtouch admin page (*Settings/WPtouch*) to customize your WPtouch appearance.
 
 = WordPress MU =
-If you'd like to use *WPtouch* with WordPress MU as a site-wide plugin, simple install the wptouch folder in the mu-plugins directory.  Once complete, either move wptouch.php back a directory (into the mu-plugins directory), or create a symbolic link to it.
 
+The best way to use WPtouch on WordPress MU is to do so via the "Activate WPtouch iPhone Theme Site Wide" link in the plugins area.
 
-Please visit http://www.bravenewcode.com/wptouch/ for comprehensive installation instructions.
+* Install WPtouch, either manually or via the "Add New" option in the plugins menu
+* Ensure that you have site wide plugins enabled in the Site Admin / Options menu
+* On the plugin configuration page activate WPtouch as a site wide plugin by clicking the "Activate WPtouch iPhone Theme Site Wide" link.  If WPtouch is already activated, deactivate it first.
 
 You can also checkout our Support Forums at http://support.bravenewcode.com to post questions and learn tips and tricks for *WPtouch* and our other plugins.
 
