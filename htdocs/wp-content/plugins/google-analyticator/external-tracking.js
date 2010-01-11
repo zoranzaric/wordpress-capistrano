@@ -23,9 +23,9 @@ jQuery(document).ready(function() {
 			// Add the tracking code
 			a.click(function() {
 				if ( analyticsEventTracking == 'enabled' ) {
-					pageTracker._trackEvent("Downloads", extension.toUpperCase(), href);
+					_gaq.push(['_trackEvent', 'Downloads', extension.toUpperCase(), href]);
 				} else
-					pageTracker._trackPageview(analyticsDownloadsPrefix + url);
+					_gaq.push(['_trackPageview', analyticsDownloadsPrefix + url]);
 			});
 		}
 		
@@ -34,9 +34,9 @@ jQuery(document).ready(function() {
 	    	// Add the tracking code
 			a.click(function() {
 				if ( analyticsEventTracking == 'enabled' ) {
-					pageTracker._trackEvent("Outbound Traffic", href.match(/:\/\/(.[^/]+)/)[1], href);
+					_gaq.push(['_trackEvent', 'Outbound Traffic', href.match(/:\/\/(.[^/]+)/)[1], href]);
 				} else
-					pageTracker._trackPageview(analyticsOutboundPrefix + url);
+					_gaq.push(['_trackPageview', analyticsOutboundPrefix + url]);
 			});
 		}
 	});

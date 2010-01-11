@@ -1,15 +1,15 @@
 <?php 
 /*
  * Plugin Name: Google Analyticator
- * Version: 5.3.1
- * Plugin URI: http://plugins.spiralwebconsulting.com/analyticator.html
+ * Version: 6.0.2
+ * Plugin URI: http://ronaldheft.com/code/analyticator/
  * Description: Adds the necessary JavaScript code to enable <a href="http://www.google.com/analytics/">Google's Analytics</a>. After enabling this plugin visit <a href="options-general.php?page=google-analyticator.php">the settings page</a> and enter your Google Analytics' UID and enable logging.
- * Author: Spiral Web Consulting
- * Author URI: http://spiralwebconsulting.com/
+ * Author: Ronald Heft
+ * Author URI: http://ronaldheft.com/
  * Text Domain: google-analyticator
  */
 
-define('GOOGLE_ANALYTICATOR_VERSION', '5.3.1');
+define('GOOGLE_ANALYTICATOR_VERSION', '6.0.2');
 
 // Constants for enabled/disabled state
 define("ga_enabled", "enabled", true);
@@ -29,8 +29,6 @@ define("key_ga_outbound", "ga_outbound", true);
 define("key_ga_outbound_prefix", "ga_outbound_prefix", true);
 define("key_ga_downloads", "ga_downloads", true);
 define("key_ga_downloads_prefix", "ga_downloads_prefix", true);
-define("key_ga_footer", "ga_footer", true);
-define("key_ga_specify_http", "ga_specify_http", true);
 define("key_ga_widgets", "ga_widgets", true);
 
 define("ga_uid_default", "XX-XXXXX-X", true);
@@ -46,8 +44,6 @@ define("ga_outbound_default", ga_enabled, true);
 define("ga_outbound_prefix_default", 'outgoing', true);
 define("ga_downloads_default", "", true);
 define("ga_downloads_prefix_default", "download", true);
-define("ga_footer_default", ga_disabled, true);
-define("ga_specify_http_default", "auto", true);
 define("ga_widgets_default", ga_enabled, true);
 
 // Create the default key and status
@@ -64,8 +60,6 @@ add_option(key_ga_outbound, ga_outbound_default, 'Add tracking of outbound links
 add_option(key_ga_outbound_prefix, ga_outbound_prefix_default, 'Add tracking of outbound links');
 add_option(key_ga_downloads, ga_downloads_default, 'Download extensions to track with Google Analyticator');
 add_option(key_ga_downloads_prefix, ga_downloads_prefix_default, 'Download extensions to track with Google Analyticator');
-add_option(key_ga_footer, ga_footer_default, 'If Google Analyticator is outputting in the footer');
-add_option(key_ga_specify_http, ga_specify_http_default, 'Automatically detect the http/https settings');
 add_option(key_ga_widgets, ga_widgets_default, 'If the widgets are enabled or disabled');
 add_option('ga_google_token', '', 'The token used to authenticate with Google');
 add_option('ga_compatibility', 'off', 'Transport compatibility options');
@@ -96,28 +90,12 @@ function ga_admin_init() {
 	# Load the localization information
 	$plugin_dir = basename(dirname(__FILE__));
 	load_plugin_textdomain('google-analyticator', 'wp-content/plugins/' . $plugin_dir . '/localizations', $plugin_dir . '/localizations');
-	
-	// Register out options so WordPress knows about them
-	if ( function_exists('register_setting') ) {
-		register_setting('google-analyticator', key_ga_status, '');
-		register_setting('google-analyticator', key_ga_uid, '');
-		register_setting('google-analyticator', key_ga_admin, '');
-		register_setting('google-analyticator', key_ga_admin_disable, '');
-		register_setting('google-analyticator', key_ga_admin_level, '');
-		register_setting('google-analyticator', key_ga_adsense, '');
-		register_setting('google-analyticator', key_ga_extra, '');
-		register_setting('google-analyticator', key_ga_extra_after, '');
-		register_setting('google-analyticator', key_ga_event, '');
-		register_setting('google-analyticator', key_ga_outbound, '');
-		register_setting('google-analyticator', key_ga_outbound_prefix, '');
-		register_setting('google-analyticator', key_ga_downloads, '');
-		register_setting('google-analyticator', key_ga_downloads_prefix, '');
-		register_setting('google-analyticator', key_ga_footer, '');
-		register_setting('google-analyticator', key_ga_specify_http, '');
-	}
 }
 
-// Initialize outbound link tracking
+# Add the core Google Analytics script, with a high priority to ensure last script for async tracking
+add_action('wp_head', 'add_google_analytics', 999999);
+
+# Initialize outbound link tracking
 add_action('init', 'ga_outgoing_links');
 
 // Hook in the options page function
@@ -146,9 +124,9 @@ function ga_filter_plugin_links($links, $file)
 {
 	if ( $file == plugin_basename(__FILE__) )
 	{
-		$links[] = '<a href="http://plugins.spiralwebconsulting.com/forums/viewforum.php?f=5">' . __('FAQ', 'google-analyticator') . '</a>';
-		$links[] = '<a href="http://plugins.spiralwebconsulting.com/forums/viewforum.php?f=6">' . __('Support', 'google-analyticator') . '</a>';
-		$links[] = '<a href="http://plugins.spiralwebconsulting.com/analyticator.html#donate">' . __('Donate', 'google-analyticator') . '</a>';
+		$links[] = '<a href="http://forums.ronaldheft.com/viewforum.php?f=5">' . __('FAQ', 'google-analyticator') . '</a>';
+		$links[] = '<a href="http://forums.ronaldheft.com/viewforum.php?f=6">' . __('Support', 'google-analyticator') . '</a>';
+		$links[] = '<a href="http://ronaldheft.com/code/donate/">' . __('Donate', 'google-analyticator') . '</a>';
 	}
 	
 	return $links;
@@ -157,105 +135,93 @@ function ga_filter_plugin_links($links, $file)
 function ga_options_page() {
 	// If we are a postback, store the options
 	if (isset($_POST['info_update'])) {
-//		if ( wp_verify_nonce($_POST['ga-nonce-key'], 'google-analyticator') ) {
-			
-			// Update the status
-			$ga_status = $_POST[key_ga_status];
-			if (($ga_status != ga_enabled) && ($ga_status != ga_disabled))
-				$ga_status = ga_status_default;
-			update_option(key_ga_status, $ga_status);
+		# Verify nonce
+		check_admin_referer('google-analyticator-update_settings');
+					
+		// Update the status
+		$ga_status = $_POST[key_ga_status];
+		if (($ga_status != ga_enabled) && ($ga_status != ga_disabled))
+			$ga_status = ga_status_default;
+		update_option(key_ga_status, $ga_status);
 
-			// Update the UID
-			$ga_uid = $_POST[key_ga_uid];
-			if ($ga_uid == '')
-				$ga_uid = ga_uid_default;
-			update_option(key_ga_uid, $ga_uid);
+		// Update the UID
+		$ga_uid = $_POST[key_ga_uid];
+		if ($ga_uid == '')
+			$ga_uid = ga_uid_default;
+		update_option(key_ga_uid, $ga_uid);
 
-			// Update the admin logging
-			$ga_admin = $_POST[key_ga_admin];
-			if (($ga_admin != ga_enabled) && ($ga_admin != ga_disabled))
-				$ga_admin = ga_admin_default;
-			update_option(key_ga_admin, $ga_admin);
-			
-			// Update the admin disable setting
-			$ga_admin_disable = $_POST[key_ga_admin_disable];
-			if ( $ga_admin_disable == '' )
-				$ga_admin_disable = ga_admin_disable_default;
-			update_option(key_ga_admin_disable, $ga_admin_disable);
-			
-			// Update the admin level
-			$ga_admin_level = $_POST[key_ga_admin_level];
-			if ( $ga_admin_level == '' )
-				$ga_admin_level = ga_admin_level_default;
-			update_option(key_ga_admin_level, $ga_admin_level);
+		// Update the admin logging
+		$ga_admin = $_POST[key_ga_admin];
+		if (($ga_admin != ga_enabled) && ($ga_admin != ga_disabled))
+			$ga_admin = ga_admin_default;
+		update_option(key_ga_admin, $ga_admin);
+		
+		// Update the admin disable setting
+		$ga_admin_disable = $_POST[key_ga_admin_disable];
+		if ( $ga_admin_disable == '' )
+			$ga_admin_disable = ga_admin_disable_default;
+		update_option(key_ga_admin_disable, $ga_admin_disable);
+		
+		// Update the admin level
+		$ga_admin_level = $_POST[key_ga_admin_level];
+		if ( $ga_admin_level == '' )
+			$ga_admin_level = ga_admin_level_default;
+		update_option(key_ga_admin_level, $ga_admin_level);
 
-			// Update the extra tracking code
-			$ga_extra = $_POST[key_ga_extra];
-			update_option(key_ga_extra, $ga_extra);
+		// Update the extra tracking code
+		$ga_extra = $_POST[key_ga_extra];
+		update_option(key_ga_extra, $ga_extra);
 
-			// Update the extra after tracking code
-			$ga_extra_after = $_POST[key_ga_extra_after];
-			update_option(key_ga_extra_after, $ga_extra_after);
-			
-			// Update the adsense key
-			$ga_adsense = $_POST[key_ga_adsense];
-			update_option(key_ga_adsense, $ga_adsense);
-			
-			// Update the event tracking
-			$ga_event = $_POST[key_ga_event];
-			if (($ga_event != ga_enabled) && ($ga_event != ga_disabled))
-				$ga_event = ga_event_default;
-			update_option(key_ga_event, $ga_event);
+		// Update the extra after tracking code
+		$ga_extra_after = $_POST[key_ga_extra_after];
+		update_option(key_ga_extra_after, $ga_extra_after);
+		
+		// Update the adsense key
+		$ga_adsense = $_POST[key_ga_adsense];
+		update_option(key_ga_adsense, $ga_adsense);
+		
+		// Update the event tracking
+		$ga_event = $_POST[key_ga_event];
+		if (($ga_event != ga_enabled) && ($ga_event != ga_disabled))
+			$ga_event = ga_event_default;
+		update_option(key_ga_event, $ga_event);
 
-			// Update the outbound tracking
-			$ga_outbound = $_POST[key_ga_outbound];
-			if (($ga_outbound != ga_enabled) && ($ga_outbound != ga_disabled))
-				$ga_outbound = ga_outbound_default;
-			update_option(key_ga_outbound, $ga_outbound);
-			
-			// Update the outbound prefix
-			$ga_outbound_prefix = $_POST[key_ga_outbound_prefix];
-			if ($ga_outbound_prefix == '')
-				$ga_outbound_prefix = ga_outbound_prefix_default;
-			update_option(key_ga_outbound_prefix, $ga_outbound_prefix);
+		// Update the outbound tracking
+		$ga_outbound = $_POST[key_ga_outbound];
+		if (($ga_outbound != ga_enabled) && ($ga_outbound != ga_disabled))
+			$ga_outbound = ga_outbound_default;
+		update_option(key_ga_outbound, $ga_outbound);
+		
+		// Update the outbound prefix
+		$ga_outbound_prefix = $_POST[key_ga_outbound_prefix];
+		if ($ga_outbound_prefix == '')
+			$ga_outbound_prefix = ga_outbound_prefix_default;
+		update_option(key_ga_outbound_prefix, $ga_outbound_prefix);
 
-			// Update the download tracking code
-			$ga_downloads = $_POST[key_ga_downloads];
-			update_option(key_ga_downloads, $ga_downloads);
-			
-			// Update the download prefix
-			$ga_downloads_prefix = $_POST[key_ga_downloads_prefix];
-			if ($ga_downloads_prefix == '')
-				$ga_downloads_prefix = ga_downloads_prefix_default;
-			update_option(key_ga_downloads_prefix, $ga_downloads_prefix);
+		// Update the download tracking code
+		$ga_downloads = $_POST[key_ga_downloads];
+		update_option(key_ga_downloads, $ga_downloads);
+		
+		// Update the download prefix
+		$ga_downloads_prefix = $_POST[key_ga_downloads_prefix];
+		if ($ga_downloads_prefix == '')
+			$ga_downloads_prefix = ga_downloads_prefix_default;
+		update_option(key_ga_downloads_prefix, $ga_downloads_prefix);
+		
+		// Update the widgets option
+		$ga_widgets = $_POST[key_ga_widgets];
+		if (($ga_widgets != ga_enabled) && ($ga_widgets != ga_disabled))
+			$ga_widgets = ga_widgets_default;
+		update_option(key_ga_widgets, $ga_widgets);
+		
+		// Update the compatibility options
+		$ga_compatibility = $_POST['ga_compatibility'];
+		if ( $ga_compatibility == '' )
+			$ga_compatibility = 'off';
+		update_option('ga_compatibility', $ga_compatibility);
 
-			// Update the footer
-			$ga_footer = $_POST[key_ga_footer];
-			if (($ga_footer != ga_enabled) && ($ga_footer != ga_disabled))
-				$ga_footer = ga_footer_default;
-			update_option(key_ga_footer, $ga_footer);
-			
-			// Update the HTTP status
-			$ga_specify_http = $_POST[key_ga_specify_http];
-			if ( $ga_specify_http == '' )
-				$ga_specify_http = 'auto';
-			update_option(key_ga_specify_http, $ga_specify_http);
-			
-			// Update the widgets option
-			$ga_widgets = $_POST[key_ga_widgets];
-			if (($ga_widgets != ga_enabled) && ($ga_widgets != ga_disabled))
-				$ga_widgets = ga_widgets_default;
-			update_option(key_ga_widgets, $ga_widgets);
-			
-			// Update the compatibility options
-			$ga_compatibility = $_POST['ga_compatibility'];
-			if ( $ga_compatibility == '' )
-				$ga_compatibility = 'off';
-			update_option('ga_compatibility', $ga_compatibility);
-
-			// Give an updated message
-			echo "<div class='updated fade'><p><strong>" . __('Google Analyticator settings saved.', 'google-analyticator') . "</strong></p></div>";
-//		}
+		// Give an updated message
+		echo "<div class='updated fade'><p><strong>" . __('Google Analyticator settings saved.', 'google-analyticator') . "</strong></p></div>";
 	}
 
 	// Output the options page
@@ -265,20 +231,13 @@ function ga_options_page() {
 			
 		<h2><?php _e('Google Analyticator Settings', 'google-analyticator'); ?></h2>
 		
-		<div style="float: right;">
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="6309412">
-				<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-			</form>
-		</div>
+		<p><em>Like Google Analyticator? Help support it <a href="http://ronaldheft.com/code/donate/">by donating to the developer</a>. This helps cover the cost of maintaining the plugin and development time toward new features. Every donation, no matter how small, is appreciated.</em></p>
 			
 		<form method="post" action="options-general.php?page=google-analyticator.php">
-			
-			<p><em>
-				<?php _e('Google Analyticator is brought to you for free by <a href="http://spiralwebconsulting.com/">Spiral Web Consulting</a>. Spiral Web Consulting is a small web development firm specializing in PHP development. Visit our website to learn more, and don\'t hesitate to ask us to develop your next big WordPress plugin idea.', 'google-analyticator'); ?>
-			</em></p>
+			<?php
+			# Add a nonce
+			wp_nonce_field('google-analyticator-update_settings');
+			?>
 			
 			<h3><?php _e('Basic Settings', 'google-analyticator'); ?></h3>
 			<?php if (get_option(key_ga_status) == ga_disabled) { ?>
@@ -333,7 +292,7 @@ function ga_options_page() {
 						<?php } else { ?>
 							<p style="margin-top: 7px;"><?php _e('Currently authenticated with Google.', 'google-analyticator'); ?> <a href="<?php echo admin_url('/options-general.php?page=google-analyticator.php&token=deauth'); ?>"><?php _e('Deauthorize Google Analyticator.', 'google-analyticator'); ?></a></p>
 							<?php if ( isset($_GET['token']) && $_GET['token'] != 'deauth' ) { ?>
-								<p style="color: red; display: none;" id="ga_connect_error"><?php _e('Failed to authenticate with Google. Try using the compatibility options at the bottom of this page. If you are still unable to authenticate, contact your host, informing them you are experiencing errors with outbound SSL connections.', 'google-analyticator'); ?></p>
+								<p style="color: red; display: none;" id="ga_connect_error"><?php _e('Failed to authenticate with Google. <a href="http://forums.ronaldheft.com/viewtopic.php?f=5&t=851">Read this support article</a> on Analyticator\'s support forums for help.', 'google-analyticator'); ?></p>
 							<?php } ?>
 						<?php } ?>
 						<p style="margin: 5px 10px;" class="setting-description"><?php _e('Clicking the above link will authenticate Google Analyticator with Google. Authentication with Google is needed for use with the stats widget. In addition, authenticating will enable you to select your Analytics account through a drop-down instead of searching for your UID. If you are not going to use the stat widget, <strong>authenticating with Google is optional</strong>.', 'google-analyticator'); ?></p>
@@ -431,29 +390,6 @@ function ga_options_page() {
 						echo "</select>\n";
 						?>
 						<p style="margin: 5px 10px;" class="setting-description"><?php _e('Selecting the "Remove" option will physically remove the tracking code from logged in admin users. Selecting the "Use \'admin\' variable" option will assign a variable called \'admin\' to logged in admin users. This option will allow Google Analytics\' site overlay feature to work, but you will have to manually configure Google Analytics to exclude tracking from hits with the \'admin\' variable.', 'google-analyticator'); ?></p>
-					</td>
-				</tr>
-				<tr>
-					<th width="30%" valign="top" style="padding-top: 10px;">
-						<label for="<?php echo key_ga_footer ?>"><?php _e('Footer tracking code', 'google-analyticator'); ?>:</label>
-					</th>
-					<td>
-						<?php
-						echo "<select name='".key_ga_footer."' id='".key_ga_footer."'>\n";
-						
-						echo "<option value='".ga_enabled."'";
-						if(get_option(key_ga_footer) == ga_enabled)
-							echo " selected='selected'";
-						echo ">" . __('Enabled', 'google-analyticator') . "</option>\n";
-						
-						echo "<option value='".ga_disabled."'";
-						if(get_option(key_ga_footer) == ga_disabled)
-							echo" selected='selected'";
-						echo ">" . __('Disabled', 'google-analyticator') . "</option>\n";
-						
-						echo "</select>\n";
-						?>
-						<p style="margin: 5px 10px;" class="setting-description"><?php _e('Enabling this option will insert the Google Analytics tracking code in your site\'s footer instead of your header. This will speed up your page loading if turned on. Not all themes support code in the footer, so if you turn this option on, be sure to check the Analytics code is still displayed on your site.', 'google-analyticator'); ?></p>
 					</td>
 				</tr>
 				<tr>
@@ -586,34 +522,6 @@ function ga_options_page() {
 						<p style="margin: 5px 10px;" class="setting-description"><?php _e('Enter any additional lines of tracking code that you would like to include in the Google Analytics tracking script. The code in this section will be displayed <strong>after</strong> the Google Analytics tracker is initialized. Read <a href="http://www.google.com/analytics/InstallingGATrackingCode.pdf">Google Analytics tracker manual</a> to learn what code goes here and how to use it.', 'google-analyticator'); ?></p>
 					</td>
 				</tr>
-				<tr>
-					<th width="30%" valign="top" style="padding-top: 10px;">
-						<label for="<?php echo key_ga_specify_http; ?>"><?php _e('Specify HTTP detection', 'google-analyticator'); ?>:</label>
-					</th>
-					<td>
-						<?php
-						echo "<select name='".key_ga_specify_http."' id='".key_ga_specify_http."'>\n";
-						
-						echo "<option value='auto'";
-						if(get_option(key_ga_specify_http) == 'auto')
-							echo " selected='selected'";
-						echo ">" . __('Auto Detect', 'google-analyticator') . "</option>\n";
-						
-						echo "<option value='http'";
-						if(get_option(key_ga_specify_http) == 'http')
-							echo " selected='selected'";
-						echo ">" . __('HTTP', 'google-analyticator') . "</option>\n";
-						
-						echo "<option value='https'";
-						if(get_option(key_ga_specify_http) == 'https')
-							echo " selected='selected'";
-						echo ">" . __('HTTPS', 'google-analyticator') . "</option>\n";
-						
-						echo "</select>\n";
-						?>
-						<p style="margin: 5px 10px;" class="setting-description"><?php _e('Explicitly set the type of HTTP connection your website uses. Setting this option instead of relying on the auto detect may resolve the _gat is undefined error message.', 'google-analyticator'); ?></p>
-					</td>
-				</tr>
 				<?php
 				# Check if we have a version of WordPress greater than 2.8
 				if ( function_exists('register_widget') ) {
@@ -672,7 +580,6 @@ function ga_options_page() {
 				<?php } ?>
 				</table>
 			<p class="submit">
-				<?php if ( function_exists('settings_fields') ) settings_fields('google-analyticator'); ?>
 				<input type="submit" name="info_update" value="<?php _e('Save Changes', 'google-analyticator'); ?>" />
 			</p>
 		</div>
@@ -698,7 +605,7 @@ function ga_admin_ajax()
 				url: 'admin-ajax.php',
 				data: {
 					action: 'ga_ajax_accounts',
-					_ajax_nonce: '<?php echo wp_create_nonce("ga_ajax_accounts"); ?>'<?php if ( isset($_GET['token']) ) { ?>,
+					_ajax_nonce: '<?php echo wp_create_nonce("google-analyticator-accounts_get"); ?>'<?php if ( isset($_GET['token']) ) { ?>,
 					token: '<?php echo $_GET["token"]; ?>'
 					<?php } ?>
 				},
@@ -726,7 +633,7 @@ add_action('wp_ajax_ga_ajax_accounts', 'ga_ajax_accounts');
 function ga_ajax_accounts()
 {
 	# Check the ajax widget
-	check_ajax_referer('ga_ajax_accounts');
+	check_ajax_referer('google-analyticator-accounts_get');
 	
 	# Get the list of accounts if available
 	$ga_accounts = ga_get_analytics_accounts();
@@ -818,110 +725,84 @@ if ( !function_exists('http_build_query') ) {
 	}
 }
 
-// Add the script
-$ga_in_footer = false;
-if (get_option(key_ga_footer) == ga_enabled) {
-	$ga_in_footer = true;
-	add_action('wp_head', 'add_ga_adsense');
-	add_action('wp_footer', 'add_google_analytics');
-} else {
-	add_action('wp_head', 'add_google_analytics');
-}
-
 /**
- * Adds the Analytics Adsense tracking code to the header if the main Analytics tracking code is in the footer.
- * Idea and code for Adsense tracking with main code in footer props William Charles Nickerson on May 16, 2009.
+ * Echos out the core Analytics tracking code
  **/
-function add_ga_adsense() {
-	$uid = stripslashes(get_option(key_ga_uid));
-	// If GA is enabled and has a valid key
-	if (  (get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" )) {
-		// Display page tracking if user is not an admin
-		if ( ( get_option(key_ga_admin) == ga_enabled || !current_user_can('level_' . get_option(key_ga_admin_level)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' ) {
-			if ( get_option(key_ga_adsense) != '' ) {
-				echo "<!-- Google Analytics Tracking by Google Analyticator " . GOOGLE_ANALYTICATOR_VERSION . ": http://plugins.spiralwebconsulting.com/analyticator.html -->\n";
-				echo '	<script type="text/javascript">window.google_analytics_uacct = "' . get_option(key_ga_adsense) . "\";</script>\n\n";
-			}
-		}
-	}
-}
-
-// The guts of the Google Analytics script
-function add_google_analytics() {
-	global $ga_in_footer;
-	
+function add_google_analytics()
+{
+	# Fetch variables used in the tracking code
 	$uid = stripslashes(get_option(key_ga_uid));
 	$extra = stripslashes(get_option(key_ga_extra));
 	$extra_after = stripslashes(get_option(key_ga_extra_after));
 	$extensions = str_replace (",", "|", get_option(key_ga_downloads));
 	
-	// If GA is enabled and has a valid key
-	if (  (get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" )) {
-		
-		// Display page tracking if user is not an admin
-		if ( ( get_option(key_ga_admin) == ga_enabled || !current_user_can('level_' . get_option(key_ga_admin_level)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' ) {
-		
-			echo "<!-- Google Analytics Tracking by Google Analyticator " . GOOGLE_ANALYTICATOR_VERSION . ": http://plugins.spiralwebconsulting.com/analyticator.html -->\n";
-			# Google Adsense data if enabled
-			if ( get_option(key_ga_adsense) != '' && !$ga_in_footer )
-				echo '	<script type="text/javascript">window.google_analytics_uacct = "' . get_option(key_ga_adsense) . "\";</script>\n\n";
+	# Determine if the GA is enabled and contains a valid UID
+	if ( ( get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" ) )
+	{
+		# Determine if the user is an admin, and should see the tracking code
+		if ( ( get_option(key_ga_admin) == ga_enabled || !current_user_can('level_' . get_option(key_ga_admin_level)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' )
+		{
+			# Add the notice that Google Analyticator tracking is enabled
+			echo "<!-- Google Analytics Tracking by Google Analyticator " . GOOGLE_ANALYTICATOR_VERSION . ": http://ronaldheft.com/code/analyticator/ -->\n";
 			
-			// Pick the HTTP connection
-			if ( get_option(key_ga_specify_http) == 'http' ) {
-				echo "	<script type=\"text/javascript\" src=\"http://www.google-analytics.com/ga.js\"></script>\n\n";
-			} elseif ( get_option(key_ga_specify_http) == 'https' ) {
-				echo "	<script type=\"text/javascript\" src=\"https://ssl.google-analytics.com/ga.js\"></script>\n\n";
-			} else {
-				echo "	<script type=\"text/javascript\">\n";
-				echo "		var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");\n";
-				echo "		document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));\n";
-				echo "	</script>\n\n";
-			}
-		
-			echo "	<script type=\"text/javascript\">\n";
-			echo "	try {\n";
-			echo "		var pageTracker = _gat._getTracker(\"$uid\");\n";
-		
-			// Insert extra before tracker code
-			if ( '' != $extra )
-				echo "		" . $extra . "\n";
-		
-			// Initialize the tracker
-			echo "		pageTracker._initData();\n";
-			echo "		pageTracker._trackPageview();\n";
-		
-			// Disable page tracking if admin is logged in
-			if ( ( get_option(key_ga_admin) == ga_disabled ) && ( current_user_can('level_' . get_option(key_ga_admin_level)) ) )
-				echo "		pageTracker._setVar('admin');\n";
-		
-			// Insert extra after tracker code
-			if ( '' != $extra_after )
-				echo "		" . $extra_after . "\n";
-		
-			echo "	} catch(err) {}</script>\n";
-		
-			// Include the file types to track
+			# Add the Adsense data if specified
+			if ( get_option(key_ga_adsense) != '' )
+				echo '<script type="text/javascript">window.google_analytics_uacct = "' . get_option(key_ga_adsense) . "\";</script>\n";
+			
+			# Include the file types to track
 			$extensions = explode(',', stripslashes(get_option(key_ga_downloads)));
 			$ext = "";
 			foreach ( $extensions AS $extension )
 				$ext .= "'$extension',";
 			$ext = substr($ext, 0, -1);
-		
-			// Include the link tracking prefixes
+
+			# Include the link tracking prefixes
 			$outbound_prefix = stripslashes(get_option(key_ga_outbound_prefix));
 			$downloads_prefix = stripslashes(get_option(key_ga_downloads_prefix));
 			$event_tracking = get_option(key_ga_event);
-		
+
 			?>
-			<script type="text/javascript">
-				var analyticsFileTypes = [<?php echo strtolower($ext); ?>];
+<script type="text/javascript">
+	var analyticsFileTypes = [<?php echo strtolower($ext); ?>];
 <?php if ( $event_tracking != 'enabled' ) { ?>
-				var analyticsOutboundPrefix = '/<?php echo $outbound_prefix; ?>/';
-				var analyticsDownloadsPrefix = '/<?php echo $downloads_prefix; ?>/';
+	var analyticsOutboundPrefix = '/<?php echo $outbound_prefix; ?>/';
+	var analyticsDownloadsPrefix = '/<?php echo $downloads_prefix; ?>/';
 <?php } ?>
-				var analyticsEventTracking = '<?php echo $event_tracking; ?>';
-			</script>
-			<?php
+	var analyticsEventTracking = '<?php echo $event_tracking; ?>';
+</script>
+<?php
+			# Add the first part of the core tracking code
+			?>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', '<?php echo $uid; ?>']);
+<?php
+		
+			# Add any tracking code before the trackPageview
+			if ( '' != $extra )
+				echo "	$extra\n";
+			
+			# Add the track pageview function
+			echo "	_gaq.push(['_trackPageview']);\n";
+		
+			# Disable page tracking if admin is logged in
+			if ( ( get_option(key_ga_admin) == ga_disabled ) && ( current_user_can('level_' . get_option(key_ga_admin_level)) ) )
+				echo "	_gaq.push(['_setVar', 'admin']);\n";
+		
+			# Add any tracking code after the trackPageview
+			if ( '' != $extra_after )
+				echo "	$extra_after\n";
+		
+			# Add the final section of the tracking code
+			?>
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+<?php
 		}
 	}
 }
@@ -931,14 +812,21 @@ function add_google_analytics() {
  **/
 function ga_outgoing_links()
 {
-	// If GA is enabled and has a valid key
-	if (  (get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" )) {
-		// If outbound tracking is enabled
-		if ( get_option(key_ga_outbound) == ga_enabled ) {
-			// If this is not an admin page
-			if ( !is_admin() ) {
-				// Display page tracking if user is not an admin
-				if ( ( get_option(key_ga_admin) == ga_enabled || !current_user_can('level_' . get_option(key_ga_admin_level)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' ) {
+	# Fetch the UID
+	$uid = stripslashes(get_option(key_ga_uid));
+	
+	# If GA is enabled and has a valid key
+	if (  (get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" ) )
+	{
+		# If outbound tracking is enabled
+		if ( get_option(key_ga_outbound) == ga_enabled )
+		{
+			# If this is not an admin page
+			if ( !is_admin() )
+			{
+				# Display page tracking if user is not an admin
+				if ( ( get_option(key_ga_admin) == ga_enabled || !current_user_can('level_' . get_option(key_ga_admin_level)) ) && get_option(key_ga_admin_disable) == 'remove' || get_option(key_ga_admin_disable) != 'remove' )
+				{
 					add_action('wp_print_scripts', 'ga_external_tracking_js');
 				}
 			}
@@ -951,8 +839,61 @@ function ga_outgoing_links()
  **/
 function ga_external_tracking_js()
 {
-//	wp_enqueue_script('jquery');
 	wp_enqueue_script('ga-external-tracking', plugins_url('/google-analyticator/external-tracking.min.js'), array('jquery'), GOOGLE_ANALYTICATOR_VERSION);
+}
+
+/**
+ * EXPERIMENTAL: Retrieve Google's visits for the given page
+ * More work needs to be done. Needs caching, needs to be less resource intensive, and
+ * needs an automated way to determine the page.
+ * Function may/will change in future releases. Only use if you know what you're doing.
+ *
+ * @param url - the page url, missing the domain information
+ * @param days - the number of days to get
+ * @return the number of visits
+ **/
+function get_analytics_visits_by_page($page, $days = 31)
+{
+	require_once('class.analytics.stats.php');
+	
+	# Create a new API object
+	$api = new GoogleAnalyticsStats();
+	
+	# Get the current accounts accounts
+	$accounts = ga_get_analytics_accounts();
+	
+	# Verify accounts exist
+	if ( count($accounts) <= 0 )
+		return 0;
+	
+	# Loop throught the account and return the current account
+	foreach ( $accounts AS $account )
+	{
+		# Check if the UID matches the selected UID
+		if ( $account['ga:webPropertyId'] == get_option('ga_uid') )
+		{
+			$api->setAccount($account['id']);
+			break;
+		}
+	}
+	
+	# Encode the page url
+	$page = urlencode($page);
+	
+	# Get the metric information from Google
+	$before = date('Y-m-d', strtotime('-' . $days . ' days'));
+	$yesterday = date('Y-m-d', strtotime('-1 day'));
+	$stats = $api->getMetrics('ga:visits', $before, $yesterday, 'ga:pagePath', false, 'ga:pagePath%3D%3D' . $page, 1);
+	
+	# Check the size of the stats array
+	if ( count($stats) <= 0 || !is_array($stats) ) {
+		return 0;
+	} else {
+		# Loop through each stat for display
+		foreach ( $stats AS $stat ) {
+			return $stat['ga:visits'];
+		}
+	}
 }
 
 ?>

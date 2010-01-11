@@ -3,7 +3,7 @@
 /**
  * Creates a summary widget for Google Analytics stats
  *
- * @author Spiral Web Consulting
+ * @author Ronald Heft
  **/
 class GoogleAnalyticsSummary
 {
@@ -38,7 +38,7 @@ class GoogleAnalyticsSummary
 	function addJavascript()
 	{
 		# Include the Sparklines graphing library
-		wp_enqueue_script('jquery-sparklines', plugins_url('/google-analyticator/jquery.sparkline.min.js'), array('jquery'), '1.4.2');
+		wp_enqueue_script('jquery-sparklines', plugins_url('/google-analyticator/jquery.sparkline.min.js'), array('jquery'), '1.4.3');
 	}
 	
 	/**
@@ -51,23 +51,26 @@ class GoogleAnalyticsSummary
 		
 			jQuery(document).ready(function(){
 				
+				// Add a link to see full stats on the Analytics website
+				jQuery('#google-analytics-summary h3.hndle span').append('<span class="postbox-title-action"><a href="http://google.com/analytics/" class="edit-box open-box"><?php _e('View Full Stat Report', 'google-analyticator'); ?></a></span>');
+				
 				// Grab the widget data
 				jQuery.ajax({
 					type: 'post',
 					url: 'admin-ajax.php',
 					data: {
 						action: 'ga_stats_widget',
-						_ajax_nonce: '<?php echo wp_create_nonce("ga_stats_widget"); ?>'
+						_ajax_nonce: '<?php echo wp_create_nonce("google-analyticator-statsWidget_get"); ?>'
 					},
 					success: function(html) {
 						// Hide the loading message
-						jQuery('#google-analytics-summary .inside').hide();
+						jQuery('#google-analytics-summary .inside small').remove();
 						
 						// Place the widget data in the area
-						jQuery('#google-analytics-summary .inside').html(html);
+						jQuery('#google-analytics-summary .inside .target').html(html);
 						
 						// Display the widget data
-						jQuery('#google-analytics-summary .inside').slideDown();
+						jQuery('#google-analytics-summary .inside .target').slideDown();
 						
 						// Handle displaying the graph
 						if ( navigator.appName != 'Microsoft Internet Explorer' ) {
@@ -91,7 +94,8 @@ class GoogleAnalyticsSummary
 	 **/
 	function widget()
 	{
-		echo '<small>' . __('Loading') . '...</small>';
+		echo '<small>' . __('Loading', 'google-analyticator') . '...</small>';
+		echo '<div class="target" style="display: none;"></div>';
 	}
 	
 	/**
@@ -100,7 +104,7 @@ class GoogleAnalyticsSummary
 	function ajaxWidget()
 	{
 		# Check the ajax widget
-		check_ajax_referer('ga_stats_widget');
+		check_ajax_referer('google-analyticator-statsWidget_get');
 		
 		# Attempt to login and get the current account
 		$this->id = $this->getAnalyticsAccount();
@@ -369,7 +373,7 @@ class GoogleAnalyticsSummary
 			# Get the metrics needed to build the top pages
 			$before = date('Y-m-d', strtotime('-31 days'));
 			$yesterday = date('Y-m-d', strtotime('-1 day'));
-			$stats = $this->api->getMetrics('ga:pageviews', $before, $yesterday, 'ga:pageTitle,ga:pagePath', '-ga:pageviews', 'ga:pagePath!%3D%2F', '5');
+			$stats = $this->api->getMetrics('ga:pageviews', $before, $yesterday, 'ga:pageTitle,ga:pagePath', '-ga:pageviews', 'ga:pagePath!%3D%2F', '10');
 			
 			# Store the serialized stats in the database
 			$newStats = serialize(array('stats'=>$stats, 'lastcalled'=>time()));
@@ -384,9 +388,52 @@ class GoogleAnalyticsSummary
 			# Build the top pages list
 			echo '<ol>';
 			
-			# Loop through each stat
+			# Set variables needed to correct (not set) bug
+			$new_stats = array();
+			$notset_stats = array();
+			
+			# Loop through each stat and create a new array
 			foreach ( $stats AS $stat ) {
-				echo '<li><a href="' . esc_html($stat['ga:pagePath']) . '">' . $stat['ga:pageTitle'] . '</a> - ' . number_format($stat['ga:pageviews']) . ' ' . __('Views', 'google-analyticator') . '</li>';
+				# If the stat is not set
+				if ( $stat['ga:pageTitle'] == '(not set)' ) {
+					# Add it to separate array
+					$notset_stats[] = $stat;
+				} else {
+					# Add it to new array with index set
+					$new_stats[$stat['ga:pagePath']] = $stat;
+				}
+			}
+			
+			# Loop through all the (not set) stats and attempt to add them to their correct stat
+			foreach ( $notset_stats AS $stat ) {
+				# If the stat has a "partner"
+				if ( $new_stats[$stat['ga:pagePath']] != NULL ) {
+					# Add the pageviews to the stat
+					$new_stats[$stat['ga:pagePath']]['ga:pageviews'] = $new_stats[$stat['ga:pagePath']]['ga:pageviews'] + $stat['ga:pageviews'];
+				} else {
+					# Stat goes to the ether since we couldn't find a partner (if anyone reads this and has a suggestion to improve, let me know)
+				}
+			}
+			
+			# Renew new_stats back to stats
+			$stats = $new_stats;
+			
+			# Sort the stats array, since adding the (not set) items may have changed the order
+			usort($stats, array($this, 'statSort'));
+			
+			# Since we can no longer rely on the API as a limiter, we need to keep track of this ourselves
+			$stat_count = 0;
+			
+			# Loop through each stat for display
+			foreach ( $stats AS $stat ) {
+				echo '<li><a href="' . esc_url($stat['ga:pagePath']) . '">' . esc_html($stat['ga:pageTitle']) . '</a> - ' . number_format($stat['ga:pageviews']) . ' ' . __('Views', 'google-analyticator') . '</li>';
+				
+				# Increase the stat counter
+				$stat_count++;
+				
+				# Stop at 5
+				if ( $stat_count >= 5 )
+					break;
 			}
 			
 			# Finish the list
@@ -494,6 +541,21 @@ class GoogleAnalyticsSummary
 			# Finish the list
 			echo '</ol>';
 		}
+	}
+	
+	/**
+	 * Sort a set of stats in descending order
+	 *
+	 * @return how the stat should be sorted
+	 **/
+	function statSort($x, $y)
+	{
+		if ( $x['ga:pageviews'] == $y['ga:pageviews'] )
+			return 0;
+		elseif ( $x['ga:pageviews'] < $y['ga:pageviews'] )
+			return 1;
+		else
+			return -1;
 	}
 	
 	/**

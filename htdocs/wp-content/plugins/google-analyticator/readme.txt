@@ -1,10 +1,10 @@
 === Google Analyticator ===
-Contributors: cavemonkey50, jesse_altman, spiralwebconsulting
-Donate link: http://plugins.spiralwebconsulting.com/analyticator.html#donate
+Contributors: cavemonkey50
+Donate link: http://ronaldheft.com/code/donate/
 Tags: stats, statistics, google, analytics, google analytics, tracking, widget
 Requires at least: 2.7
-Tested up to: 2.8.3
-Stable tag: 5.3.1
+Tested up to: 2.9
+Stable tag: 6.0.2
 
 Adds the necessary JavaScript code to enable Google Analytics. Includes widgets for Analytics data display.
 
@@ -12,14 +12,12 @@ Adds the necessary JavaScript code to enable Google Analytics. Includes widgets 
 
 Google Analyticator adds the necessary JavaScript code to enable Google Analytics logging on any WordPress blog. This eliminates the need to edit your template code to begin logging. Google Analyticator also includes several widgets for displaying Analytics data in the admin and on your blog.
 
-*Google Analyticator is brought to you for free by [Spiral Web Consulting](http://spiralwebconsulting.com/). Spiral Web Consulting is a small web development firm specializing in PHP development. Visit our website to learn more, and don't hesitate to ask us to develop your next big WordPress plugin idea.*
-
 = Features =
 
 Google Analyticator Has the Following Features:
 
-- Supports standard Google Analytics tracking
-- **NEW!** Includes an admin dashboard widget that displays a graph of the last 30 days of visitors, a summary of site usage, the top pages, the top referrers, and the top searches
+- **NEW!** Supports standard Google Analytics tracking via the latest async tracking methods (faster and more reliable than the older ga.js tracking method)
+- Includes an admin dashboard widget that displays a graph of the last 30 days of visitors, a summary of site usage, the top pages, the top referrers, and the top searches
 - Includes a widget that can be used to display visitor stat information on the front-end
 - Supports outbound link tracking of all links on the page, including links not managed by WordPress
 - Supports download link tracking
@@ -27,19 +25,18 @@ Google Analyticator Has the Following Features:
 - Allows hiding of Administrator visits without affecting Google Analytics' site overlay feature
 - Supports any advanced tracking code Google provides
 - Installs easily - unlike other plugins, the user doesn't even have to know their Analytics UID
-- Allows tracking code to be placed in the footer to ensure faster load times
 - Provides complete control over options; disable any feature if needed
-- **NEW!** Supports localization - get the settings page in your language of choice
+- Supports localization - get the settings page in your language of choice
 
-For more information, visit the [Google Analyticator plugin page](http://plugins.spiralwebconsulting.com/analyticator.html).
+For more information, visit the [Google Analyticator plugin page](http://ronaldheft.com/code/analyticator/).
 
 == Installation ==
 
-Please visit [Spiral Web Consulting's forum](http://plugins.spiralwebconsulting.com/forums/viewtopic.php?f=5&t=17) for installation information.
+Please visit [Google Analyticator's support forum](http://forums.ronaldheft.com/viewtopic.php?f=5&t=17) for installation information.
 
 == Frequently Asked Questions ==
 
-Please visit [Spiral Web Consulting's forum](http://plugins.spiralwebconsulting.com/forums/viewforum.php?f=5) for the latest FAQ information.
+Please visit [Google Analyticator's support forum](http://forums.ronaldheft.com/viewforum.php?f=5) for the latest FAQ information.
 
 == Screenshots ==
 
@@ -51,6 +48,28 @@ Please visit [Spiral Web Consulting's forum](http://plugins.spiralwebconsulting.
 6. An example of a front-end widget configuration.
 
 == Changelog ==
+
+= 6.0.2 =
+* Updates the async tracking snippet to the latest version provided by Google.
+* Improves the error message when failing to authenticate with Google, pointing users to a FAQ article to resolve their issues.
+
+= 6.0.1 =
+* Adds a missing closing quote on setVar - admin. If you use this option, update ASAP to prevent Javascript from breaking.
+
+= 6.0 =
+* Switches current tracking script (ga.js) to the new awesome async tracking script. In laymen's terms: updates to the latest tracking code, the tracking script will load faster, and tracking will be more reliable. If you use custom tracking code, be sure to migrate that code to the new async tracking methods.
+* Removes settings made obsolete due to the new async tracking (footer tracking and http/https).
+* Fixes the (not set) pages in the Top Pages section of the dashboard widget. Pages containing the title (not set) will be combined with the correct page and corresponding title. Note that I am still trying to get this bug fixed in the Google Analytics API; this is just a hold over until the bug is fixed.
+* Adds a link to Google Analytics on the dashboard widget for quick access to view full stat reports.
+* Fixes a Javascript error that prevented the dashboard widget from collapsing.
+* Corrects a uid undefined error message that appeared if error reporting was set too high.
+* Updates the included jQuery sparklines plugin to the latest version, 1.4.3.
+* Adds an experimental function to retrieve page visitors stats for theme developers. This function is not final and only provided for advanced users who know what they're doing. Future versions will improve on the code already in place. Find the get_analytics_visits_by_page in google-analyticator.php to learn how to use. Use at your own risk.
+* Fixes several security flaws identified during a recent security audit of Google Analyticator.
+* Removes references to Spiral Web Consulting. Google Analyticator is now being developed exclusively by Ronald Heft.
+
+= 5.3.2 =
+* Prepares Google Analyticator for WordPress 2.9 compatibility.
 
 = 5.3.1 =
 * Corrects a fatal error on the settings page under WordPress 2.7.
