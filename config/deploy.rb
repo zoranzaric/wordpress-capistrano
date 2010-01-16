@@ -1,10 +1,10 @@
-set :application, "Client Blog One"
+set :application, "democlient.com"
 #You probably want to change this to be the location of the repo you just forked
 set :repository,  "git@github.com:vluther/wordpress-capistrano.git"
 
 
 #The following is not the document root, but just the app root 
-set :deploy_to, "/home/demouser/websites/clientblogone/"
+set :deploy_to, "/home/demouser/websites/#{application}/"
 
 
 #The unix/ftp user 

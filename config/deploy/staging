@@ -1,1 +1,11 @@
+#The staging server host (this is where you ssh into)
 role :app, "staging.example.com"
+
+#this is the staging url I send to a client
+set :application, "clientname.example.com"
+
+#The unix/ftp user you ssh in as 
+set :user, "stageuser"
+
+#The following is not the document root, but just the app root 
+set :deploy_to, "/home/#{user}/websites/#{application}"
